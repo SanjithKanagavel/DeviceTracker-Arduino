@@ -56,7 +56,7 @@ void uploadstatus(){//calling RESTful API to upload datapoint to MCS to report L
   printlnData("");
 }
 
-void uploadGPS(){
+bool uploadGPS(){
 
   while (!c2.connect(SITE_URL, 80))
   {
@@ -68,9 +68,13 @@ void uploadGPS(){
 
   float latitude_post=latitude;
   float longitude_post=longitude;  
-  if(latitude>-90 && latitude<90 && longitude>0 && longitude<360){
+  if(latitude>-90 && latitude<90 && longitude>0 && longitude<360)
+  {
     sprintf(buffer_latitude, "%.4f", latitude);
     sprintf(buffer_longitude, "%.4f", longitude);
+  }
+  else {
+    return false;
   }
   printData("Latitude:");
   printlnData(String(buffer_latitude));
@@ -122,4 +126,5 @@ void uploadGPS(){
     }    
   } 
   printlnData(String(c2));
+  return true;
 }

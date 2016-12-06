@@ -50,14 +50,20 @@ void setup()
   pinMode(13, OUTPUT);
   LTask.begin();
   LWiFi.begin();
-  Serial.begin(115200);
+  if(USE_SERIAL != 1) {
+    Serial.begin(115200);
+  }
   LGPS.powerOn();
-  while(!Serial);
+  if(USE_SERIAL != 1) {
+    while(!Serial);
+  }
   
   AP_connect();
   getconnectInfo();
   connectTCP();
-  Serial.println("==============================");
+  if(USE_SERIAL != 1) {
+    printlnData("==============================");
+  }
 }
 
 void loop()
@@ -72,11 +78,11 @@ void loop()
         tcpcmd += (char)v;
         if (tcpcmd.equals(tcpcmd_led_on)){
           digitalWrite(13, HIGH);
-          Serial.print("Switch LED ON ");
+          printData("Switch LED ON ");
           tcpcmd="";
         }else if(tcpcmd.equals(tcpcmd_led_off)){  
           digitalWrite(13, LOW);
-          Serial.print("Switch LED OFF");
+          printData("Switch LED OFF");
           tcpcmd="";
         }
       }
@@ -93,8 +99,9 @@ void loop()
     
     //uploadstatus();
     GPS_receive();
-    uploadGPS();
-    lrtc1 = rtc1;
+    if(uploadGPS()) {
+      lrtc1 = rtc1;
+    }
   }
   delay(3000);
 }
