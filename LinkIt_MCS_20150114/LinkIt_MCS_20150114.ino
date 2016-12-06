@@ -8,13 +8,13 @@
 #include <LWiFi.h>
 #include <LWiFiClient.h>
 #include <LDateTime.h>
-#define WIFI_AP "XperiaS"
-#define WIFI_PASSWORD "12345678"
+#define WIFI_AP "sanjith"
+#define WIFI_PASSWORD "kanagavel"
 #define WIFI_AUTH LWIFI_WPA  // choose from LWIFI_OPEN, LWIFI_WPA, or LWIFI_WEP.
 #define per 50
 #define per1 3
-#define DEVICEID "DUE6z588"
-#define DEVICEKEY "QaY437J8EFV5p0Gs"
+#define DEVICEID "D7ck5tM0"
+#define DEVICEKEY "bkoDot4bE5zzSKGm"
 #define SITE_URL "api.mediatek.com"
 
 gpsSentenceInfoStruct info;
@@ -95,4 +95,5 @@ void loop()
     uploadGPS();
     lrtc1 = rtc1;
   }
+  delay(3000);
 }

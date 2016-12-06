@@ -74,18 +74,22 @@ void uploadGPS(){
     sprintf(buffer_longitude, "%.4f", longitude);
   }
   String upload_GPS = "GPS,,"+String(buffer_latitude)+","+String(buffer_longitude)+","+"0"+"\n"+"latitude,,"+buffer_latitude+"\n"+"longitude,,"+buffer_longitude;//null altitude
-  
+  Serial.println(upload_GPS);
   int GPS_length = upload_GPS.length();
   HttpClient http(c2);
   c2.print("POST /mcs/v2/devices/");
   c2.print(DEVICEID);
   c2.println("/datapoints.csv HTTP/1.1");
+  
   c2.print("Host: ");
   c2.println(SITE_URL);
+  
   c2.print("deviceKey: ");
   c2.println(DEVICEKEY);
+  
   c2.print("Content-Length: ");
   c2.println(GPS_length);
+  
   c2.println("Content-Type: text/csv");
   c2.println("Connection: close");
   c2.println();
@@ -93,20 +97,22 @@ void uploadGPS(){
   delay(500);
 
   int errorcount = 0;
-  
+  Serial.println("Test Available");
   while (!c2.available())
   {
-    Serial.print(".");
     delay(100);
   }
+  
   int err = http.skipResponseHeaders();
   int bodyLen = http.contentLength();
   
   while (c2)
   {
+    Serial.println("Test Available 1");
     int v = c2.read();
     if (v != -1)
     {
+      Serial.println("Test Available 2");
       Serial.print(char(v));
     }
     else
@@ -114,7 +120,8 @@ void uploadGPS(){
       Serial.println("no more content, disconnect");
       c2.stop();
     }
-    
-  }
-  Serial.println();
+    Serial.println("Test Available 3");
+  } 
+  Serial.println("Test Available 4");
+  Serial.println(c2);
 }
