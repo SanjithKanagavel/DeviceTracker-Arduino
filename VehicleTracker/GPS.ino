@@ -101,7 +101,7 @@ void parseGPGGA(const char* GPGGAstr)
   }
   else
   {
-    Serial.println("Not get data"); 
+    printlnData("Not get data"); 
   }
 }
 
@@ -110,3 +110,17 @@ void GPS_receive() {
   //Serial.println((char*)info.GPGGA); 
   parseGPGGA((const char*)info.GPGGA);
 }
+
+void printData(String data)
+{
+  if(USE_SERIAL != 1) {
+   Serial.print(data); 
+  }
+}
+void printlnData(String data)
+{
+  if(USE_SERIAL != 1) {
+   Serial.println(data); 
+  }
+}
+

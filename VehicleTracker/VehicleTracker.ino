@@ -16,6 +16,7 @@
 #define DEVICEID "D7ck5tM0"
 #define DEVICEKEY "bkoDot4bE5zzSKGm"
 #define SITE_URL "api.mediatek.com"
+#define USE_SERIAL 0
 
 gpsSentenceInfoStruct info;
 char buff[256];

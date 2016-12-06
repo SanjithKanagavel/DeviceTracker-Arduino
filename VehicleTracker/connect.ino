@@ -1,20 +1,20 @@
 void AP_connect(){
-  Serial.print("Connecting to AP...");
+  printData("Connecting to AP...");
   while (0 == LWiFi.connect(WIFI_AP, LWiFiLoginInfo(WIFI_AUTH, WIFI_PASSWORD)))
   {
-    Serial.print(".");
+    printData(".");
     delay(500);
   }
-  Serial.println("Success!");
+  printlnData("Success!");
   
-  Serial.print("Connecting site...");
+  printData("Connecting site...");
 
   while (!c2.connect(SITE_URL, 80))
   {
-    Serial.print(".");
+    printData(".");
     delay(500);
   }
-  Serial.println("Success!");
+  printlnData("Success!");
   delay(100);
 }
 
@@ -34,14 +34,14 @@ void getconnectInfo(){
   delay(500);
 
   int errorcount = 0;
-  Serial.print("waiting for HTTP response...");
+  printData("waiting for HTTP response...");
   while (!c2.available())
   {
-    Serial.print(".");
+    printData(".");
     errorcount += 1;
     delay(150);
   }
-  Serial.println();
+  printlnData("");
   int err = http.skipResponseHeaders();
 
   int bodyLen = http.contentLength();
@@ -63,7 +63,7 @@ void getconnectInfo(){
     }
     else
     {
-      Serial.println("no more content, disconnect");
+      printlnData("no more content, disconnect");
       c2.stop();
 
     }
@@ -91,20 +91,20 @@ void getconnectInfo(){
 void connectTCP(){
   //establish TCP connection with TCP Server with designate IP and Port
   c.stop();
-  Serial.print("Connecting to TCP...");
+  printData("Connecting to TCP...");
   while (0 == c.connect(ip, portnum))
   {
-    Serial.println("Re-Connecting to TCP");    
+    printlnData("Re-Connecting to TCP");    
     delay(1000);
   }
   c.println(tcpdata);
   c.println();
-  Serial.println("Success!");
+  printlnData("Success!");
 } //connectTCP
 
 
 void heartBeat(){
-  Serial.println("send TCP heartBeat");
+  printlnData("send TCP heartBeat");
   c.println(tcpdata);
   c.println();
     

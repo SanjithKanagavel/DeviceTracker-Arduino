@@ -2,7 +2,7 @@ void uploadstatus(){//calling RESTful API to upload datapoint to MCS to report L
 
   while (!c2.connect(SITE_URL, 80))
   {
-    Serial.print(".");
+    printData(".");
     delay(500);
   }
   
@@ -33,7 +33,7 @@ void uploadstatus(){//calling RESTful API to upload datapoint to MCS to report L
   int errorcount = 0;
   while (!c2.available())
   {
-    Serial.print(".");
+    printData(".");
     delay(100);
   }
   int err = http.skipResponseHeaders();
@@ -44,37 +44,40 @@ void uploadstatus(){//calling RESTful API to upload datapoint to MCS to report L
     int v = c2.read();
     if (v != -1)
     {
-      Serial.print(char(v));
+      printData(String(char(v)));
     }
     else
     {
-      Serial.println("no more content, disconnect");
+      printlnData("no more content, disconnect");
       c2.stop();
     }
     
   }
-  Serial.println();
+  printlnData("");
 }
 
 void uploadGPS(){
 
   while (!c2.connect(SITE_URL, 80))
   {
-    Serial.print(".");
+    printData(".");
     delay(500);
   }
   
   delay(100);
 
   float latitude_post=latitude;
-  float longitude_post=longitude;
-  Serial.printf("latitude=%.4f\tlongitude=%.4f\n",latitude,longitude);
+  float longitude_post=longitude;  
   if(latitude>-90 && latitude<90 && longitude>0 && longitude<360){
     sprintf(buffer_latitude, "%.4f", latitude);
     sprintf(buffer_longitude, "%.4f", longitude);
   }
+  printData("Latitude:");
+  printlnData(String(buffer_latitude));
+  printData("Longitude:");
+  printlnData(String(buffer_longitude));
   String upload_GPS = "GPS,,"+String(buffer_latitude)+","+String(buffer_longitude)+","+"0"+"\n"+"latitude,,"+buffer_latitude+"\n"+"longitude,,"+buffer_longitude;//null altitude
-  Serial.println(upload_GPS);
+  printlnData(upload_GPS);
   int GPS_length = upload_GPS.length();
   HttpClient http(c2);
   c2.print("POST /mcs/v2/devices/");
@@ -96,8 +99,7 @@ void uploadGPS(){
   c2.println(upload_GPS);
   delay(500);
 
-  int errorcount = 0;
-  Serial.println("Test Available");
+  int errorcount = 0;  
   while (!c2.available())
   {
     delay(100);
@@ -107,21 +109,17 @@ void uploadGPS(){
   int bodyLen = http.contentLength();
   
   while (c2)
-  {
-    Serial.println("Test Available 1");
+  {    
     int v = c2.read();
     if (v != -1)
-    {
-      Serial.println("Test Available 2");
-      Serial.print(char(v));
+    {      
+      printData(String(char(v)));
     }
     else
     {
-      Serial.println("no more content, disconnect");
+      printlnData("no more content, disconnect");
       c2.stop();
-    }
-    Serial.println("Test Available 3");
+    }    
   } 
-  Serial.println("Test Available 4");
-  Serial.println(c2);
+  printlnData(String(c2));
 }
